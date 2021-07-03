@@ -9,12 +9,12 @@ data =json.load(f)
 
 @app.route('/')
 def index():
-    # elements = []
-    # for element in data:
-    #     elements.append(element)
+    elements = []
+    for element in data:
+        elements.append(element)
 
-    # return jsonify(elements)
-    return "Hey !!!!!!"
+    return jsonify(elements)
+
 
 if __name__ == "__main__":
     app.run(debug=False)
