@@ -8,12 +8,13 @@ data =json.load(f)
 
 
 @app.route('/')
-def allElements():
-    elements = []
-    for element in data:
-        elements.append(element)
+def index():
+    # elements = []
+    # for element in data:
+    #     elements.append(element)
 
-    return jsonify(elements)
+    # return jsonify(elements)
+    return "Hey !!!!!!"
 
 # if __name__ == "__main__":
 #     app.run(debug=False)
