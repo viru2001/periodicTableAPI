@@ -8,8 +8,11 @@ f = open('data.json')
 data = json.load(f)
 
 
-def makeResponse(js):
-    resp = Response(js, status=200, mimetype='application/json')
+def makeResponse(js, err):
+    if err:
+        resp = Response(js, status=400, mimetype='application/json')
+    else:
+        resp = Response(js, status=200, mimetype='application/json')
     resp.headers["Access-Control-Allow-Origin"] = "*"
     resp.headers["Access-Control-Allow-Credentials"] = "true"
     resp.headers["Access-Control-Allow-Methods"] = "GET"
@@ -24,7 +27,7 @@ def allElements():
         elements.append(element)
 
     js = json.dumps(elements)
-    resp = makeResponse(js)
+    resp = makeResponse(js,False)
     return resp
 
 
@@ -39,13 +42,15 @@ def block(blockName):
                 elements.append(element)
 
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js, False)
+
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "block name is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js, True)
+
+    return resp
 
 
 @app.route("/elements/state/<string:state>")
@@ -59,13 +64,15 @@ def state(state):
                 elements.append(element)
 
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,False)
+        
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "state is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,True)
+
+    return resp
 
 
 @app.route("/element/atomicNumber/<int:ano>")
@@ -77,15 +84,18 @@ def atomicNumber(ano):
             if element['atomicNumber'] == ano:
                 elements.append(element)
                 break
+
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,False)
+        
 
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "atomic number is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,True)
+    
+    return resp
 
 
 @app.route("/element/atomicName/<string:aname>")
@@ -97,13 +107,15 @@ def atomicName(aname):
             elements.append(element)
             break
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "atomic name is invalid"}]
+
         js = json.dumps(message)
-        resp = makeResponse(js)
+        resp = makeResponse(js,True)
         return resp
 
     js = json.dumps(elements)
-    resp = makeResponse(js)
+    resp = makeResponse(js,False)
     return resp
 
 
@@ -116,12 +128,14 @@ def symbol(symbol):
             elements.append(element)
             break
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "symbol is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
+        resp = makeResponse(js,True)
         return resp
+
     js = json.dumps(elements)
-    resp = makeResponse(js)
+    resp = makeResponse(js,False)
     return resp
 
 
@@ -133,12 +147,14 @@ def electronicConfiguration(ano):
             element = {"configuration": element['electronicConfiguration']}
             break
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "atomic number is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
+        resp = makeResponse(js,True)
         return resp
+
     js = json.dumps(element)
-    resp = makeResponse(js)
+    resp = makeResponse(js,False)
     return resp
 
 
@@ -154,13 +170,15 @@ def bondingType(bType):
                 elements.append(element)
 
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,False)
+       
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "bonding type is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,True)
+    
+    return resp
 
 
 @app.route("/elements/type/<string:type>")
@@ -175,13 +193,15 @@ def groupBlock(type):
                 elements.append(element)
 
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,False)
+        
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "type is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,True)
+
+    return resp
 
 
 @app.route("/elements/group/<int:no>")
@@ -192,16 +212,19 @@ def group(no):
         for element in data:
             if element['group'] == no:
                 elements.append(element)
-        
+
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,False)
+        
 
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "group number is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js,True)
+    
+    return resp
+
 
 @app.route("/elements/period/<int:no>")
 def period(no):
@@ -211,16 +234,19 @@ def period(no):
         for element in data:
             if element['period'] == no:
                 elements.append(element)
-        
+
         js = json.dumps(elements)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js , False)
+        
 
     else:
-        message = "data does not exist"
+        message = [{"errorCode": "400 BAD REQUEST",
+                    "message": "period number is invalid"}]
         js = json.dumps(message)
-        resp = makeResponse(js)
-        return resp
+        resp = makeResponse(js, True)
+
+    return resp
+
 
 if __name__ == "__main__":
     app.run(debug=True)
