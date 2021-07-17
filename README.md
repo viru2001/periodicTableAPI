@@ -1,4 +1,4 @@
-# periodicTableAPI
+# Periodic Table Elements
 This API fetches data of periodic table elements in JSON Format and deployed on heroku. It has various requests where you can fetch data of single element as well as a group of elements having similar properties.
 
 
