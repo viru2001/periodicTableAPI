@@ -143,7 +143,7 @@ def electronicConfiguration(ano):
 
     for element in data:
         if element['atomicNumber'] == ano:
-            element = {"configuration": element['electronicConfiguration']}
+            element = [{"configuration": element['electronicConfiguration']}]
             break
     else:
         message = [{"errorCode": "400 BAD REQUEST",
