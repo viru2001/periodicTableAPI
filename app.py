@@ -183,8 +183,8 @@ def bondingType(bType):
 @app.route("/elements/type/<string:type>")
 def groupBlock(type):
     elements = []
-    groupBlocks = ['metal', 'alkali metal', 'actinoid', 'halogen', 'alkaline earth metal',
-                   'lanthanoid', 'metalloid', 'nonmetal', 'transition metal', 'noble gas', 'post-transition metal']
+    groupBlocks = ['metal', 'alkali_metal', 'actinoid', 'halogen', 'alkaline_earth_metal',
+                   'lanthanoid', 'metalloid', 'nonmetal', 'transition_metal', 'noble_gas', 'post_transition_metal']
 
     if type in groupBlocks:
         for element in data:
